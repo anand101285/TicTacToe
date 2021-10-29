@@ -5,6 +5,8 @@ import { StyleSheet, Text, View,Button ,TouchableOpacity} from 'react-native';
 
 const TButton=(props)=> {
   const [val,setVal]=useState("");
+
+  //if initial val is "" then new val will be set
   const onpress=()=>{ 
     if(val=="")
     {
@@ -29,7 +31,8 @@ const TButton=(props)=> {
 
 const Ground = ()=>{
     // starting state
-    const [curr,setCurr]=useState("X");
+    const [curr,setCurr]=useState("O");
+    
 
     //board to change the state and compare if win
     const [board,setboard]=useState([["","",""],["","",""],["","",""]]);
@@ -38,7 +41,6 @@ const Ground = ()=>{
         setCurr("O");
       else if(curr=="O")
         setCurr("X");
-      alert(board);
     };
 
     //change board function since it cannot be changed if passed to other component
@@ -46,19 +48,69 @@ const Ground = ()=>{
       var a = board;
       a[r][c]=val;
       setboard(a);
-      checkwin();
+      checkwin('X');
+      checkwin('O');
     }
 
 
     //check win everytime the function is called
-    const checkwin=()=>{
-      if(board[0][0]=="X" && board[1][1]=="X" && board[2][2]=="X")
+    const checkwin=(turn)=>{
+      if(board[0][0]==turn && board[1][1]==turn && board[2][2]==turn)
       {
-        alert("X won");
+        alert(`${turn} Won`);
+      }
+      else if(board[0][0]==turn && board[0][1]==turn && board[0][2]==turn)
+      {
+        alert(`${turn} Won`);
+      }
+      else if(board[1][0]==turn && board[1][1]==turn && board[1][2]==turn)
+      {
+        alert(`${turn} Won`);
+      }
+      else if(board[2][0]==turn && board[2][1]==turn && board[2][2]==turn)
+      {
+        alert(`${turn} Won`);
+      }
+      else if(board[0][0]==turn && board[1][0]==turn && board[2][0]==turn)
+      {
+        alert(`${turn} Won`);
+      }
+      else if(board[0][1]==turn && board[1][1]==turn && board[2][1]==turn)
+      {
+        alert(`${turn} Won`);
+      }
+      else if(board[0][2]==turn && board[1][2]==turn && board[2][2]==turn)
+      {
+        alert(`${turn} Won`);
+      }
+      else if(board[0][2]==turn && board[2][2]==turn && board[2][0]==turn)
+      {
+        alert(`${turn} Won`);
+      }
+      else
+      {
+        for (var i=0;i<board.length;i++)
+        {
+          for(var j=0;j<board[i].length;j++)
+          {
+            if(board[i][j]=="")
+            {
+              return;
+            }
+            else if(i==board.length-1 && j==board[i].length-1)
+            {
+              alert(`Match Is draw`);      
+              board.map((val)=>val="");
+            }
+          }
+        }
+        
+        
       }
     }
     return(
       <View>
+        <Text style={{fontSize:30,marginBottom:90}} >Current Turn : {curr}</Text>
         {/* creating the borad for setting each 3 button in one row*/}
         <View style={{flexDirection:'row'}}>
           {/* row and col number will help in detecting which button is clicked
@@ -66,19 +118,19 @@ const Ground = ()=>{
           onchange  function will change the current vlaue ongoing on the board after changing the value on buton
           change board change the value in array that will be use to detect win 
           */}
-          <TButton row={0} col={0} current={curr} onChange={onchange} b={changeboard}></TButton>
-          <TButton row={0} col={1} current={curr} onChange={onchange} b={changeboard}></TButton>
-          <TButton row={0} col={2} current={curr} onChange={onchange} b={changeboard}></TButton>
+          <TButton row={0} col={0} current={curr} onChange={onchange} b={changeboard} />
+          <TButton row={0} col={1} current={curr} onChange={onchange} b={changeboard} />
+          <TButton row={0} col={2} current={curr} onChange={onchange} b={changeboard} />
         </View>
         <View style={{flexDirection:'row'}}>
-        <TButton row={1} col={0} current={curr} onChange={onchange} b={changeboard}></TButton>
-        <TButton row={1} col={1} current={curr} onChange={onchange} b={changeboard}></TButton>
-        <TButton row={1} col={2} current={curr} onChange={onchange} b={changeboard}></TButton>
+        <TButton row={1} col={0} current={curr} onChange={onchange} b={changeboard} />
+        <TButton row={1} col={1} current={curr} onChange={onchange} b={changeboard} />
+        <TButton row={1} col={2} current={curr} onChange={onchange} b={changeboard} />
         </View>
         <View style={{flexDirection:'row'}}>
-        <TButton row={2} col={0} current={curr} onChange={onchange} b={changeboard}></TButton>
-        <TButton row={2} col={1} current={curr} onChange={onchange} b={changeboard}></TButton>
-        <TButton row={2} col={2} current={curr} onChange={onchange} b={changeboard}></TButton>
+        <TButton row={2} col={0} current={curr} onChange={onchange} b={changeboard} />
+        <TButton row={2} col={1} current={curr} onChange={onchange} b={changeboard} />
+        <TButton row={2} col={2} current={curr} onChange={onchange} b={changeboard} />
         </View>
       </View>
     )
