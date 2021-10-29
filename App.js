@@ -9,7 +9,7 @@ const TButton=(props)=> {
     if(val=="")
     {
       setVal(props.current);
-      props.b(0,0,props.current);
+      props.b(props.row,props.col,props.current);
       props.onChange();
       
     }
@@ -22,8 +22,8 @@ const TButton=(props)=> {
         >
           <Text>{val}</Text>
         </TouchableOpacity>
-        </View>
-        );
+    </View>
+    );
   
 };
 
@@ -43,9 +43,10 @@ const Ground = ()=>{
 
     //change board function since it cannot be changed if passed to other component
     const changeboard = (r,c,val)=>{
-      var a= board;
+      var a = board;
       a[r][c]=val;
       setboard(a);
+      checkwin();
     }
 
 
@@ -58,20 +59,26 @@ const Ground = ()=>{
     }
     return(
       <View>
+        {/* creating the borad for setting each 3 button in one row*/}
         <View style={{flexDirection:'row'}}>
-          <TButton current={curr} onChange={onchange} b={changeboard}></TButton>
-          <TButton current={curr} onChange={onchange}></TButton>
-          <TButton current={curr} onChange={onchange}></TButton>
+          {/* row and col number will help in detecting which button is clicked
+          current value will be set on the button X or O
+          onchange  function will change the current vlaue ongoing on the board after changing the value on buton
+          change board change the value in array that will be use to detect win 
+          */}
+          <TButton row={0} col={0} current={curr} onChange={onchange} b={changeboard}></TButton>
+          <TButton row={0} col={1} current={curr} onChange={onchange} b={changeboard}></TButton>
+          <TButton row={0} col={2} current={curr} onChange={onchange} b={changeboard}></TButton>
         </View>
         <View style={{flexDirection:'row'}}>
-        <TButton current={curr} onChange={onchange} b={changeboard}></TButton>
-        <TButton current={curr} onChange={onchange} b={changeboard}></TButton>
-        <TButton current={curr} onChange={onchange}></TButton>
+        <TButton row={1} col={0} current={curr} onChange={onchange} b={changeboard}></TButton>
+        <TButton row={1} col={1} current={curr} onChange={onchange} b={changeboard}></TButton>
+        <TButton row={1} col={2} current={curr} onChange={onchange} b={changeboard}></TButton>
         </View>
         <View style={{flexDirection:'row'}}>
-        <TButton current={curr} onChange={onchange}></TButton>
-        <TButton current={curr} onChange={onchange}></TButton>
-        <TButton current={curr} onChange={onchange} b={changeboard}></TButton>
+        <TButton row={2} col={0} current={curr} onChange={onchange} b={changeboard}></TButton>
+        <TButton row={2} col={1} current={curr} onChange={onchange} b={changeboard}></TButton>
+        <TButton row={2} col={2} current={curr} onChange={onchange} b={changeboard}></TButton>
         </View>
       </View>
     )
